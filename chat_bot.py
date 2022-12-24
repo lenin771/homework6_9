@@ -5,11 +5,14 @@ import random
 from cfg import TOKEN
 from random import randint
 
-bot = telebot.TeleBot(TOKEN)
+
 
 candy = dict()
+
 def end_game(message):
 	bot.send_message(message.chat.id, 'Конец игры')
+
+bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=["start"])
 def start(message, res=False):
@@ -28,7 +31,7 @@ def handle_text(message):
 	else:
 		candy[message.chat.id] = candy[message.chat.id] - int(message.text)
 		bot.send_message(message.chat.id, f'Осталось {str(candy[message.chat.id])} конфет')
-	if candy[message.chat.id] <= 28:
+	if candy[message.chat.id] <= 28 and candy[message.chat.id] > 0:
 		bot.send_message(message.chat.id, 'Победил бот')
 		end_game(message)
 	elif candy[message.chat.id] == 0:
